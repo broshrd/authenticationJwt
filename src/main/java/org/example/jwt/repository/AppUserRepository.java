@@ -2,6 +2,7 @@ package org.example.jwt.repository;
 
 import org.apache.ibatis.annotations.*;
 import org.example.jwt.model.AppUser;
+import org.example.jwt.model.dto.request.AppUserRequest;
 
 @Mapper
 public interface AppUserRepository {
@@ -21,4 +22,15 @@ public interface AppUserRepository {
             @Result(property = "fullName", column = "full_name")
     })
     AppUser findByEmail(String email);
+
+
+    @Select("""
+    INSERT INTO users VALUES (default, #{appUser.fullName}, #{appUser.email}, #{appUser.password})
+    RETURNING *
+""")
+    AppUser register(@Param("appUser") AppUserRequest appUserRequest);
+    @Insert("""
+    INSERT INTO user_role VALUES (#{userId}, #{roleId})
+""")
+    void insertUserIdAndRoleId(Integer userId, Integer roleId);
 }

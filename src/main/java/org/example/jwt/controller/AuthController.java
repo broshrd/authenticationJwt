@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.coyote.BadRequestException;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.example.jwt.jwt.JwtService;
+import org.example.jwt.model.dto.request.AppUserRequest;
 import org.example.jwt.model.dto.request.AuthRequest;
 import org.example.jwt.model.dto.response.AuthResponse;
 import org.example.jwt.service.AppUserService;
@@ -60,4 +61,9 @@ public class AuthController {
         AuthResponse authResponse = new AuthResponse(token);
         return ResponseEntity.ok(authResponse);
     }
+    @PostMapping("register")
+    public ResponseEntity<?> register(@RequestBody AppUserRequest appUserRequest){
+        return ResponseEntity.ok(appUserService.register(appUserRequest));
+    }
+
 }
